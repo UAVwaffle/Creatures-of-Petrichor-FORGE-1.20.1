@@ -47,6 +47,11 @@ public class PetrichorWorldRegistry {
                     .add(new MobSpawnSettings.SpawnerData(ModEntities.HAUNT.get(), Config.hauntSpawnWeight, Config.hauntMinSpawnCount, Config.hauntMaxSpawnCount));
         }
 
+        if (testBiome(Config.MEADOW_SLIME_BIOME_TAG, biome) && Config.meadowSlimeSpawnWeight > 0) {
+            builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER)
+                    .add(new MobSpawnSettings.SpawnerData(ModEntities.MEADOW_SLIME.get(), Config.meadowSlimeSpawnWeight, Config.meadowSlimeMinSpawnCount, Config.meadowSlimeMaxSpawnCount));
+        }
+
         if (testBiome(Config.SHADE_BIOME_TAG, biome) && Config.shadeSpawnWeight > 0) {
             builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER)
                     .add(new MobSpawnSettings.SpawnerData(ModEntities.SHADE.get(), Config.shadeSpawnWeight, Config.shadeMinSpawnCount, Config.shadeMaxSpawnCount));

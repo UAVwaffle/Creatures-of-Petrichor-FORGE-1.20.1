@@ -61,12 +61,10 @@ public class ModEntityLootTables extends EntityLootSubProvider {
                         .add(LootItem.lootTableItem(Items.SLIME_BALL)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
                                 .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
-                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction
-                                .setCount(ConstantValue.exactly(1.0F)))
-                                .when(this.killedByFrog()))
-                        .when(LootItemEntityPropertyCondition
-                                .hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity()
-                                        .subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.exactly(1)))))));
+                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL)
+                                .apply(SetItemCountFunction
+                                        .setCount(ConstantValue.exactly(1.0F)))
+                                .when(this.killedByFrog()))));
 
         add(ModEntities.MEADOW_SLIME_SMALL.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
@@ -74,12 +72,10 @@ public class ModEntityLootTables extends EntityLootSubProvider {
                         .add(LootItem.lootTableItem(Items.SLIME_BALL)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
                                 .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
-                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction
+                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL)
+                                .apply(SetItemCountFunction
                                         .setCount(ConstantValue.exactly(1.0F)))
-                                .when(this.killedByFrog()))
-                        .when(LootItemEntityPropertyCondition
-                                .hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity()
-                                        .subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.exactly(1)))))));
+                                .when(this.killedByFrog()))));
 
         add(ModEntities.SHADE.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()

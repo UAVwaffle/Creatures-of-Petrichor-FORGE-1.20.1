@@ -28,6 +28,8 @@ public class CreativeTabs {
 
                 output.accept(ModItems.FORGOTTEN_GRAVESTONE_BLOCK_ITEM.get());
 
+                output.accept(ModItems.MEADOW_SLIME_BUCKET.get());
+
                 output.accept(ModItems.BOULDER_SPIRIT_SPAWN_EGG.get());
                 output.accept(ModItems.VENGEFUL_GRAVESTONE_SPAWN_EGG.get());
                 output.accept(ModItems.DIREWOLF_SPAWN_EGG.get());

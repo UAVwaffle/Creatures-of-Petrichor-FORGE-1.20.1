@@ -23,6 +23,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.FROG_INGOT);
         simpleItem(ModItems.FORGOTTEN_GRAVESTONE_BLOCK_ITEM);
 
+        simpleItem(ModItems.MEADOW_SLIME_BUCKET);
+
         withExistingParent(ModItems.BOULDER_SPIRIT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         withExistingParent(ModItems.VENGEFUL_GRAVESTONE_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
         withExistingParent(ModItems.DIREWOLF_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));

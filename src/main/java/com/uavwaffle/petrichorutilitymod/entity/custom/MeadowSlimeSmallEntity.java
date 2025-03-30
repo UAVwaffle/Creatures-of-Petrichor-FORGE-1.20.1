@@ -1,18 +1,20 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
 import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorTameableHostileMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorAttackingEntity;
+import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorTameableHostileEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.monster.Monster;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.Animation;
@@ -29,7 +32,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
+public class MeadowSlimeSmallEntity extends PetrichorTameableHostileEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.meadow_slime_small.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.meadow_slime_small.walk");
@@ -37,14 +40,14 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-    public MeadowSlimeSmallEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public MeadowSlimeSmallEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel, ATTACK_ANIMATION, 16);
     }
 
     public static AttributeSupplier.Builder createAttributes(){
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 5.0D)
                 .add(Attributes.ATTACK_DAMAGE, 0.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.25f);
+                .add(Attributes.MOVEMENT_SPEED, 0.18f);
     }
 
     protected void registerGoals() {
@@ -55,18 +58,11 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false));
-//        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, BoulderSpiritEntity.class, true));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
+        this.goalSelector.addGoal(4, new PetrichorTameableHostileMeleeAttackGoal(this, 1.0d, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isTame));
     }
 
-
-
-        @Override
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
 
@@ -85,31 +81,6 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
         return 0.3f;
     }
 
-//    public void remove(Entity.RemovalReason pReason) { //make more entities
-//        if (!this.level().isClientSide && this.isDeadOrDying()) {
-//            Component component = this.getCustomName();
-//            boolean flag = this.isNoAi();
-//            int k = this.random.nextInt(2) + 1;
-//
-//            for(int l = 0; l < k; ++l) {
-//                VengefulGravestoneEntity slime = (VengefulGravestoneEntity) getType().create(level());
-//                if (slime != null) {
-//                    if (this.isPersistenceRequired()) {
-//                        slime.setPersistenceRequired();
-//                    }
-//
-//                    slime.setCustomName(component);
-//                    slime.setNoAi(flag);
-//                    slime.setInvulnerable(this.isInvulnerable());
-//                    slime.moveTo(this.getX(), this.getY() + 0.5D, this.getZ(), this.random.nextFloat() * 360.0F, 0.0F);
-//                    this.level().addFreshEntity(slime);
-//                }
-//            }
-//        }
-//
-//        super.remove(pReason);
-//    }
-
     /* SOUNDS */
     @Override
     protected SoundEvent getAmbientSound() {
@@ -126,5 +97,10 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
     @Override
     protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pBlock) {
         this.playSound(SoundEvents.TUFF_BREAK, 0.001F, 0.01F);
+    }
+
+    @Override
+    public @Nullable AgeableMob getBreedOffspring(@NotNull ServerLevel pLevel, @NotNull AgeableMob pOtherParent) {
+        return null;
     }
 }

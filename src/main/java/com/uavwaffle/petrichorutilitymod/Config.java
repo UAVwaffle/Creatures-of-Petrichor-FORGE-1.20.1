@@ -72,6 +72,19 @@ public class Config {
             .comment("Haunt biome tag. This is where the mob will spawn")
             .define("hauntBiomeTag", "is_overworld");
 
+    private static final ForgeConfigSpec.IntValue MEADOW_SLIME_SPAWN_WEIGHT = BUILDER
+            .comment("Meadow Slime spawn weight. Bigger number equals more common")
+            .defineInRange("meadowSlimeSpawnWeight", 50, 1, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue MEADOW_SLIME_MIN_SPAWN_COUNT = BUILDER
+            .comment("Meadow Slime min spawn count. Bigger number equals more common")
+            .defineInRange("meadowSlimeMinSpawnCount", 1, 1, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue MEADOW_SLIME_MAX_SPAWN_COUNT = BUILDER
+            .comment("Meadow Slime max spawn count. Bigger number equals more common")
+            .defineInRange("meadowSlimeMaxSpawnCount", 1, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.ConfigValue<String> MEADOW_SLIME_BIOME_TAG_CONFIG = BUILDER
+            .comment("Meadow Slime biome tag. This is where the mob will spawn")
+            .define("meadowSlimeBiomeTag", "has_structure/village_plains");
+
     private static final ForgeConfigSpec.IntValue SHADE_SPAWN_WEIGHT = BUILDER
             .comment("Shade spawn weight. Bigger number equals more common")
             .defineInRange("shadeSpawnWeight", 60, 1, Integer.MAX_VALUE);
@@ -188,6 +201,11 @@ public class Config {
     public static int hauntMaxSpawnCount;
     public static TagKey<Biome> HAUNT_BIOME_TAG;
 
+    public static int meadowSlimeSpawnWeight;
+    public static int meadowSlimeMinSpawnCount;
+    public static int meadowSlimeMaxSpawnCount;
+    public static TagKey<Biome> MEADOW_SLIME_BIOME_TAG;
+
     public static int shadeSpawnWeight;
     public static int shadeMinSpawnCount;
     public static int shadeMaxSpawnCount;
@@ -253,6 +271,11 @@ public class Config {
         hauntMinSpawnCount = HAUNT_MIN_SPAWN_COUNT.get();
         hauntMaxSpawnCount = HAUNT_MAX_SPAWN_COUNT.get();
         HAUNT_BIOME_TAG = createBiomeTag(HAUNT_BIOME_TAG_CONFIG.get());
+
+        meadowSlimeSpawnWeight = MEADOW_SLIME_SPAWN_WEIGHT.get();
+        meadowSlimeMinSpawnCount = MEADOW_SLIME_MIN_SPAWN_COUNT.get();
+        meadowSlimeMaxSpawnCount = MEADOW_SLIME_MAX_SPAWN_COUNT.get();
+        MEADOW_SLIME_BIOME_TAG = createBiomeTag(MEADOW_SLIME_BIOME_TAG_CONFIG.get());
 
         shadeSpawnWeight = SHADE_SPAWN_WEIGHT.get();
         shadeMinSpawnCount = SHADE_MIN_SPAWN_COUNT.get();

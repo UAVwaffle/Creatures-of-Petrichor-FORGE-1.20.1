@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-07T19:20:02.7430579	Item Models: petrichor_utility_mod
+// 1.20.1	2025-03-30T11:49:19.0450087	Item Models: petrichor_utility_mod
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/boulder_spirit_spawn_egg.json
 5aba90c436ad0c177d5c0d8545f5bce0dadfaa8d assets/petrichor_utility_mod/models/item/coin.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/cursed_doll_spawn_egg.json
@@ -9,6 +9,7 @@
 1fd038fd68235afe99edf6598000d811ab885033 assets/petrichor_utility_mod/models/item/frog_ingot.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/haunt_spawn_egg.json
 a8166e13106df860dadc9b8316676ed64fb62bf4 assets/petrichor_utility_mod/models/item/hundred_coin.json
+9d17b4fb87d375c8aeec89501dc15d0ad26fc3ce assets/petrichor_utility_mod/models/item/meadow_slime_bucket.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/meadow_slime_small_spawn_egg.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/meadow_slime_spawn_egg.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/petrichor_utility_mod/models/item/nameless_spawn_egg.json
