@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorSlowFallEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -28,7 +30,7 @@ public class SpecterEntity extends PetrichorSlowFallEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.specter.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.specter.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.specter.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.specter.attack", Animation.LoopType.PLAY_ONCE);
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -52,7 +54,7 @@ public class SpecterEntity extends PetrichorSlowFallEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, true));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 

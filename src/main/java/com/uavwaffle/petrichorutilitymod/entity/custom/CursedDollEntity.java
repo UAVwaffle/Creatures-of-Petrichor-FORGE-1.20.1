@@ -1,6 +1,9 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
+import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorAttackingEntity;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorSlowFallEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,12 +15,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -27,23 +31,21 @@ public class CursedDollEntity extends PetrichorSlowFallEntity {
 
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.cursed_doll.idle");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.cursed_doll.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.cursed_doll.attack", Animation.LoopType.PLAY_ONCE);
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public CursedDollEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel, ATTACK_ANIMATION,31);
+        super(pEntityType, pLevel, ATTACK_ANIMATION,31, 29);
     }
 
     public static AttributeSupplier.Builder createAttributes(){
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 16.0D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0f)
+                .add(Attributes.ATTACK_DAMAGE, 8.0f)//set this to 8
                 .add(Attributes.MOVEMENT_SPEED, 0.26f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.FOLLOW_RANGE, 20);
     }
-
-                /* reminder: Make a custom MeleeAttackGoal with a tick timer to make a delayed attack and to increase the attack range. (MAKE UNIVERSAL) */
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -52,15 +54,13 @@ public class CursedDollEntity extends PetrichorSlowFallEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, false));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false, 5));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
     }
 
 
 
-        @Override
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 
 

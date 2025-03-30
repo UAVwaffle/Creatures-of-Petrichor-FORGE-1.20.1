@@ -32,10 +32,10 @@ public class PetrichorWorldRegistry {
 
     public static void addBiomeSpawns(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
 
-//        if (testBiome(Config.CURSED_DOLL_BIOME_TAG, biome) && Config.cursedDollSpawnWeight > 0) {
-//            builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER)
-//                    .add(new MobSpawnSettings.SpawnerData(ModEntities.CURSED_DOLL.get(), Config.cursedDollSpawnWeight, Config.cursedDollMinSpawnCount, Config.cursedDollMaxSpawnCount));
-//        }
+        if (testBiome(Config.CURSED_DOLL_BIOME_TAG, biome) && Config.cursedDollSpawnWeight > 0) {
+            builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER)
+                    .add(new MobSpawnSettings.SpawnerData(ModEntities.CURSED_DOLL.get(), Config.cursedDollSpawnWeight, Config.cursedDollMinSpawnCount, Config.cursedDollMaxSpawnCount));
+        }
 
         if (testBiome(Config.DIREWOLF_BIOME_TAG, biome) && Config.direwolfSpawnWeight > 0) {
             builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER)

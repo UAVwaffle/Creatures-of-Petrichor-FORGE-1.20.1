@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorSlowFallEntity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -25,7 +27,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class NamelessEntity extends PetrichorSlowFallEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.nameless.idle");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.nameless.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.nameless.attack", Animation.LoopType.PLAY_ONCE);
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -45,7 +47,7 @@ public class NamelessEntity extends PetrichorSlowFallEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, false));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
@@ -77,29 +79,4 @@ public class NamelessEntity extends PetrichorSlowFallEntity {
     protected float getStandingEyeHeight(@NotNull Pose pPose, @NotNull EntityDimensions pSize) {
         return 1.6f;
     }
-
-//    public void remove(Entity.RemovalReason pReason) { //make more entities
-//        if (!this.level().isClientSide && this.isDeadOrDying()) {
-//            Component component = this.getCustomName();
-//            boolean flag = this.isNoAi();
-//            int k = this.random.nextInt(2) + 1;
-//
-//            for(int l = 0; l < k; ++l) {
-//                VengefulGravestoneEntity slime = (VengefulGravestoneEntity) getType().create(level());
-//                if (slime != null) {
-//                    if (this.isPersistenceRequired()) {
-//                        slime.setPersistenceRequired();
-//                    }
-//
-//                    slime.setCustomName(component);
-//                    slime.setNoAi(flag);
-//                    slime.setInvulnerable(this.isInvulnerable());
-//                    slime.moveTo(this.getX(), this.getY() + 0.5D, this.getZ(), this.random.nextFloat() * 360.0F, 0.0F);
-//                    this.level().addFreshEntity(slime);
-//                }
-//            }
-//        }
-//
-//        super.remove(pReason);
-//    }
 }

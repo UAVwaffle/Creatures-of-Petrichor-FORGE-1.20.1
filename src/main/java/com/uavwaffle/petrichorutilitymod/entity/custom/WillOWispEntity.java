@@ -2,6 +2,7 @@ package com.uavwaffle.petrichorutilitymod.entity.custom;
 
 import com.uavwaffle.petrichorutilitymod.entity.varient_enum.WillOWispVarient;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ambient.AmbientCreature;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -69,17 +71,6 @@ public class WillOWispEntity extends PathfinderMob implements GeoEntity {
 
         controllers.add(new AnimationController<>(this, "Walk/Idle", 5, state -> state.setAndContinue(state.isMoving() ? WALK : IDLE)));
 
-//            controllers.add( new AnimationController<>(this, "Walk/Idle", 10, state -> { //feature preview for resting transitions
-//            if (state.isMoving()) {
-//                resting = false;
-//                return state.setAndContinue(WALK);
-//            }
-//            if (resting) {
-//                return state.setAndContinue(RESTING);
-//            }
-//            return state.setAndContinue(IDLE);
-//
-//            }));
     }
 
     @Override
@@ -91,31 +82,6 @@ public class WillOWispEntity extends PathfinderMob implements GeoEntity {
     protected float getStandingEyeHeight(@NotNull Pose pPose, @NotNull EntityDimensions pSize) {
         return 1.4f;
     }
-
-//    public void remove(Entity.RemovalReason pReason) { //make more entities
-//        if (!this.level().isClientSide && this.isDeadOrDying()) {
-//            Component component = this.getCustomName();
-//            boolean flag = this.isNoAi();
-//            int k = this.random.nextInt(2) + 1;
-//
-//            for(int l = 0; l < k; ++l) {
-//                VengefulGravestoneEntity slime = (VengefulGravestoneEntity) getType().create(level());
-//                if (slime != null) {
-//                    if (this.isPersistenceRequired()) {
-//                        slime.setPersistenceRequired();
-//                    }
-//
-//                    slime.setCustomName(component);
-//                    slime.setNoAi(flag);
-//                    slime.setInvulnerable(this.isInvulnerable());
-//                    slime.moveTo(this.getX(), this.getY() + 0.5D, this.getZ(), this.random.nextFloat() * 360.0F, 0.0F);
-//                    this.level().addFreshEntity(slime);
-//                }
-//            }
-//        }
-//
-//        super.remove(pReason);
-//    }
 
     /* VARIANT STUFF */
     @Override
@@ -157,7 +123,7 @@ public class WillOWispEntity extends PathfinderMob implements GeoEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, @NotNull DamageSource pSource) {
         return false;
     }
 
@@ -173,6 +139,10 @@ public class WillOWispEntity extends PathfinderMob implements GeoEntity {
     @Override
     protected @NotNull SoundEvent getDeathSound() {
         return SoundEvents.ALLAY_DEATH;
+    }
+    @Override
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pBlock) {
+        this.playSound(SoundEvents.TUFF_BREAK, 0.001F, 0.01F);
     }
 
 }

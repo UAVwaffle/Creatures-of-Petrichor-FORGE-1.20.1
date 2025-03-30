@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorAttackingEntity;
 import com.uavwaffle.petrichorutilitymod.entity.varient_enum.ShroominVarient;
 import com.uavwaffle.petrichorutilitymod.util.id.ModLootTables;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -41,7 +43,7 @@ public class ShroominEntity extends PetrichorAttackingEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.shroomin.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.shroomin.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.shroomin.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.shroomin.attack", Animation.LoopType.PLAY_ONCE);
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -64,7 +66,7 @@ public class ShroominEntity extends PetrichorAttackingEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, false));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 

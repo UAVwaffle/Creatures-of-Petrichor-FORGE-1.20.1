@@ -35,7 +35,7 @@ public class Config {
                                 /* Mob Spawns */
     private static final ForgeConfigSpec.IntValue CURSED_DOLL_SPAWN_WEIGHT = BUILDER
              .comment("Cursed Doll spawn weight. Bigger number equals more common")
-             .defineInRange("cursedDollSpawnWeight", 60, 1, Integer.MAX_VALUE);
+             .defineInRange("cursedDollSpawnWeight", 50, 1, Integer.MAX_VALUE);
     private static final ForgeConfigSpec.IntValue CURSED_DOLL_MIN_SPAWN_COUNT = BUILDER
             .comment("Cursed Doll min spawn count. Bigger number equals more common")
             .defineInRange("cursedDollMinSpawnCount", 1, 1, Integer.MAX_VALUE);

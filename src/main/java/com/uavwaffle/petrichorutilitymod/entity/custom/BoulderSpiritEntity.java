@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorNoFallEntity;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -24,7 +26,7 @@ public class BoulderSpiritEntity extends PetrichorNoFallEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.boulder_spirit.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.boulder_spirit.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.boulder_spirit.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.boulder_spirit.attack", Animation.LoopType.PLAY_ONCE);
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
     public BoulderSpiritEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
@@ -45,7 +47,7 @@ public class BoulderSpiritEntity extends PetrichorNoFallEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, false));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));

@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorAttackingEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -17,18 +18,17 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-import javax.annotation.Nullable;
-
 public class DirewolfEntity extends PetrichorAttackingEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.direwolf.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.direwolf.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.direwolf.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.direwolf.attack", Animation.LoopType.PLAY_ONCE);
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -52,7 +52,7 @@ public class DirewolfEntity extends PetrichorAttackingEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.08d, true));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.08d, true));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }

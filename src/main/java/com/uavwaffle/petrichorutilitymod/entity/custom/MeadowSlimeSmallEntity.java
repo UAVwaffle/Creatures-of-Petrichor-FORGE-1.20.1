@@ -1,6 +1,11 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorAttackingEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -14,9 +19,11 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -26,7 +33,7 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.meadow_slime_small.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.meadow_slime_small.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.meadow_slime_small.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.meadow_slime_small.attack", Animation.LoopType.PLAY_ONCE);
 
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
@@ -36,7 +43,7 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
 
     public static AttributeSupplier.Builder createAttributes(){
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 5.0D)
-                .add(Attributes.ATTACK_DAMAGE, 2.0f)
+                .add(Attributes.ATTACK_DAMAGE, 0.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.25f);
     }
 
@@ -48,8 +55,8 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
         this.addBehaviourGoals();
     }
     protected void addBehaviourGoals() {
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0d, false));
-        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.0d, false));
+//        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
@@ -102,4 +109,22 @@ public class MeadowSlimeSmallEntity extends PetrichorAttackingEntity {
 //
 //        super.remove(pReason);
 //    }
+
+    /* SOUNDS */
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.SLIME_BLOCK_PLACE;
+    }
+    @Override
+    protected @NotNull SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
+        return SoundEvents.SLIME_HURT_SMALL;
+    }
+    @Override
+    protected @NotNull SoundEvent getDeathSound() {
+        return SoundEvents.SLIME_HURT_SMALL;
+    }
+    @Override
+    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pBlock) {
+        this.playSound(SoundEvents.TUFF_BREAK, 0.001F, 0.01F);
+    }
 }

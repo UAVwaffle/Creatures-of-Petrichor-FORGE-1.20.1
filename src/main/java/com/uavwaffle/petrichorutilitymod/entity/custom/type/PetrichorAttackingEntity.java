@@ -18,43 +18,96 @@ import software.bernie.geckolib.core.object.PlayState;
 
 public abstract class PetrichorAttackingEntity extends Monster implements GeoEntity {
     private final int attackAnimationTickLength;
-    private int attackAnimationTick = 0;
-    private boolean attacking = false;
+    private final int attackDamageTickDelay;
 
-    private final RawAnimation ATTACK_ANIMATION;// = RawAnimation.begin().thenLoop("animation.boulder_spirit.attack");
+    private int ticksUntilNextAttack;
+    private int ticksUntilAttackDamage;
+    private boolean attacked;
+    private boolean attacking;
+    private boolean cancelDamage;
 
-    public PetrichorAttackingEntity(EntityType<? extends Monster> pEntityType, Level pLevel, RawAnimation ATTACK_ANIMATION, int attackAnimationTickLength) {
-        super(pEntityType, pLevel);
+    private final RawAnimation ATTACK_ANIMATION;
+
+    public PetrichorAttackingEntity(EntityType<? extends Monster> entityType, Level level, RawAnimation ATTACK_ANIMATION, int attackAnimationTickLength) {
+        this(entityType, level, ATTACK_ANIMATION, attackAnimationTickLength, (attackAnimationTickLength/2));
+    }
+    public PetrichorAttackingEntity(EntityType<? extends Monster> entityType, Level level, RawAnimation ATTACK_ANIMATION, int attackAnimationTickLength, int attackDamageTickDelay) {
+        super(entityType, level);
         this.ATTACK_ANIMATION = ATTACK_ANIMATION;
         this.attackAnimationTickLength = attackAnimationTickLength;
+
+        this.ticksUntilAttackDamage = 0;
+        this.attackDamageTickDelay = attackDamageTickDelay;
+        this.attacked = false;
+        this.attacking = false;
+        this.cancelDamage = false;
     }
 
     @Override
     public void aiStep() {
         super.aiStep();
-        if (attackAnimationTick > 0) {
-            attackAnimationTick--;
-            attacking = true;
+
+        if (level().isClientSide) {
+            return;
+        }
+        this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
+        this.ticksUntilAttackDamage = Math.max(this.ticksUntilAttackDamage - 1, 0);
+
+        attackEntity();
+
+    }
+
+    public void startAttackSequence(){
+        if (attacking) {
+            return;
+        }
+        attacked = false;
+        attacking = true;
+        cancelDamage = false;
+        playAttackAnimation();
+        resetAttackCooldown();
+    }
+
+    public void attackEntity() {
+        if (!attacking) {
+            return;
         }
 
-
-
-        if (attackAnimationTick == 0) {
+        if (ticksUntilNextAttack <= 0) {
             attacking = false;
-            stopTriggeredAnimation("AttackController", "Attack");
         }
+
+        if (ticksUntilAttackDamage <= 0 && !attacked) {
+            if (getTarget() == null) {
+                return;
+            }
+            attacked = true;
+            doHurtTarget(getTarget());
+        }
+    }
+
+    public void resetAttackCooldown() {
+        this.ticksUntilNextAttack = attackAnimationTickLength;
+        this.ticksUntilAttackDamage = attackDamageTickDelay;
+    }
+
+    public void cancelDamage() {
+        cancelDamage = true;
     }
 
     @Override
     public boolean doHurtTarget(@NotNull Entity pEntity) {
-        if (!attacking) {
-            this.level().broadcastEntityEvent(this, (byte)4);
-            this.attackAnimationTick = attackAnimationTickLength;
-            return super.doHurtTarget(pEntity);//this should be called at the halfway mark of attack animation tick
+        if (cancelDamage) {
+            return false;
         }
-        return false;
+        return super.doHurtTarget(pEntity);
     }
 
+    public int getAttackAnimationTickLength() {
+        return attackAnimationTickLength;
+    }
+
+    @Override
     public void handleEntityEvent(byte pId) {
         if (pId == 4) {
             playAttackAnimation();
@@ -64,8 +117,12 @@ public abstract class PetrichorAttackingEntity extends Monster implements GeoEnt
 
     }
 
-    private void playAttackAnimation() {
-        this.attackAnimationTick = attackAnimationTickLength;
+
+
+    public void playAttackAnimation() {
+        if (!this.level().isClientSide) {
+            this.level().broadcastEntityEvent(this, (byte)4);
+        }
         triggerAnim("AttackController", "Attack");
     }
 

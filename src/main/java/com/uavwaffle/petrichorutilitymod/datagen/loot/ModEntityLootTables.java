@@ -4,10 +4,14 @@ import com.uavwaffle.petrichorutilitymod.block.ModBlocks;
 import com.uavwaffle.petrichorutilitymod.entity.ModEntities;
 import com.uavwaffle.petrichorutilitymod.item.ModItems;
 import com.uavwaffle.petrichorutilitymod.util.id.ModLootTables;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.critereon.SlimePredicate;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -51,15 +55,31 @@ public class ModEntityLootTables extends EntityLootSubProvider {
 
         add(ModEntities.HAUNT.get(), LootTable.lootTable());
 
-        add(ModEntities.MEADOW_SLIME.get(), LootTable.lootTable());
-//                .withPool(LootPool.lootPool()
-//                        .setRolls(ConstantValue.exactly(1.0F))
-//                        .add(LootItem.lootTableItem(ModBlocks.ALEXANDRITE_BLOCK.get()))));
+        add(ModEntities.MEADOW_SLIME.get(), LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(Items.SLIME_BALL)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
+                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction
+                                .setCount(ConstantValue.exactly(1.0F)))
+                                .when(this.killedByFrog()))
+                        .when(LootItemEntityPropertyCondition
+                                .hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity()
+                                        .subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.exactly(1)))))));
 
-        add(ModEntities.MEADOW_SLIME_SMALL.get(), LootTable.lootTable());
-//                .withPool(LootPool.lootPool()
-//                        .setRolls(ConstantValue.exactly(1.0F))
-//                        .add(LootItem.lootTableItem(ModBlocks.ALEXANDRITE_BLOCK.get()))));
+        add(ModEntities.MEADOW_SLIME_SMALL.get(), LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(LootItem.lootTableItem(Items.SLIME_BALL)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
+                                .when(this.killedByFrog().invert())).add(LootItem.lootTableItem(Items.SLIME_BALL).apply(SetItemCountFunction
+                                        .setCount(ConstantValue.exactly(1.0F)))
+                                .when(this.killedByFrog()))
+                        .when(LootItemEntityPropertyCondition
+                                .hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity()
+                                        .subPredicate(SlimePredicate.sized(MinMaxBounds.Ints.exactly(1)))))));
 
         add(ModEntities.SHADE.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()

@@ -1,5 +1,6 @@
 package com.uavwaffle.petrichorutilitymod.entity.custom;
 
+import com.uavwaffle.petrichorutilitymod.entity.custom.goal.PetrichorMeleeAttackGoal;
 import com.uavwaffle.petrichorutilitymod.entity.custom.type.PetrichorSlowFallEntity;
 import com.uavwaffle.petrichorutilitymod.util.Constants;
 import net.minecraft.server.level.ServerLevel;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.Animation;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
@@ -33,7 +35,7 @@ public class HauntEntity extends PetrichorSlowFallEntity implements NeutralMob {
 
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("animation.haunt.idle");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("animation.haunt.walk");
-    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().thenLoop("animation.haunt.attack");
+    public static final RawAnimation ATTACK_ANIMATION = RawAnimation.begin().then("animation.haunt.attack", Animation.LoopType.PLAY_ONCE);
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private UUID persistentAngerTarget;
@@ -63,7 +65,7 @@ public class HauntEntity extends PetrichorSlowFallEntity implements NeutralMob {
     }
     protected void addBehaviourGoals() {
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.25d, false));
+        this.goalSelector.addGoal(4, new PetrichorMeleeAttackGoal(this, 1.25d, false));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
     }
 
