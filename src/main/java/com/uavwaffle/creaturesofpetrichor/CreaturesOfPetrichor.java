@@ -50,7 +50,7 @@ public class CreaturesOfPetrichor {
 
         final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, CreaturesOfPetrichor.MODID);
         biomeModifiers.register(modEventBus);
-        biomeModifiers.register("petrichor_mob_spawns", PetrichorMobSpawnBiomeModifier::makeCodec);
+        biomeModifiers.register("creatures_of_petrichor_mob_spawns", PetrichorMobSpawnBiomeModifier::makeCodec);
 
         CreativeTabs.register(modEventBus);
 

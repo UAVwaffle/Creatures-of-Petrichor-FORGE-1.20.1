@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class PetrichorMobSpawnBiomeModifier implements BiomeModifier {
-    private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(new ResourceLocation(CreaturesOfPetrichor.MODID, "petrichor_mob_spawns"), ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, CreaturesOfPetrichor.MODID);
+    private static final RegistryObject<Codec<? extends BiomeModifier>> SERIALIZER = RegistryObject.create(new ResourceLocation(CreaturesOfPetrichor.MODID, "creatures_of_petrichor_mob_spawns"), ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, CreaturesOfPetrichor.MODID);
 
     public PetrichorMobSpawnBiomeModifier() {
     }
