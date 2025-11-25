@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "petrichor_utility_mod:meadow_slime",
-    "petrichor_utility_mod:meadow_slime_small"
+    "creatures_of_petrichor:meadow_slime",
+    "creatures_of_petrichor:meadow_slime_small"
   ]
 }

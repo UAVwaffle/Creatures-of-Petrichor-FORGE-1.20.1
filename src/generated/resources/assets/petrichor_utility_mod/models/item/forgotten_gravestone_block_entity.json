@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "petrichor_utility_mod:item/forgotten_gravestone_block_entity"
-  }
-}

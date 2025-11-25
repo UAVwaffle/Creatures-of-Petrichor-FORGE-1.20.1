@@ -1,7 +1,7 @@
 {
   "values": [
-    "petrichor_utility_mod:alexandrite_block",
-    "petrichor_utility_mod:raw_alexandrite_block",
-    "petrichor_utility_mod:forgotten_gravestone_block_entity"
+    "creatures_of_petrichor:alexandrite_block",
+    "creatures_of_petrichor:raw_alexandrite_block",
+    "creatures_of_petrichor:forgotten_gravestone_block_entity"
   ]
 }
