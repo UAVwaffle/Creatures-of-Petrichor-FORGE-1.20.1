@@ -16,8 +16,8 @@ public class ModBlockLootTables  extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ModBlocks.ALEXANDRITE_BLOCK.get());
-        this.dropSelf(ModBlocks.RAW_ALEXANDRITE_BLOCK.get());
+//        this.dropSelf(ModBlocks.ALEXANDRITE_BLOCK.get());
+//        this.dropSelf(ModBlocks.RAW_ALEXANDRITE_BLOCK.get());
 
         this.dropSelf(ModBlocks.FORGOTTEN_GRAVESTONE_BLOCK.get());
 

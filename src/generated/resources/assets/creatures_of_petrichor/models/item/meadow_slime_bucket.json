@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "creatures_of_petrichor:item/meadow_slime_bucket"
+  }
+}

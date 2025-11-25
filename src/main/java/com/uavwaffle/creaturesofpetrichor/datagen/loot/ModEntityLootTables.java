@@ -8,6 +8,7 @@ import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -34,7 +35,7 @@ public class ModEntityLootTables extends EntityLootSubProvider {
         add(ModEntities.BOULDER_SPIRIT.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0F))
-                        .add(LootItem.lootTableItem(ModBlocks.ALEXANDRITE_BLOCK.get()))));
+                        .add(LootItem.lootTableItem(ModItems.COIN.get()))));
 
         add(ModEntities.VENGEFUL_GRAVESTONE.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
@@ -125,7 +126,7 @@ public class ModEntityLootTables extends EntityLootSubProvider {
         add(ModEntities.WANDERING_LANTERN.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().when(LootItemKilledByPlayerCondition.killedByPlayer())
                         .setRolls(UniformGenerator.between(1, 3))
-                        .add(LootItem.lootTableItem(ModItems.COIN.get()))));
+                        .add(LootItem.lootTableItem(Blocks.GLOWSTONE.asItem()))));
 
         add(ModEntities.FALLEN_STAR.get(), LootTable.lootTable());
 //                .withPool(LootPool.lootPool()

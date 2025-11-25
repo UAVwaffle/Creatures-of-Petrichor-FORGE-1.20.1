@@ -49,8 +49,8 @@ public class CreativeTabs {
 
 
 
-                output.accept(ModBlocks.ALEXANDRITE_BLOCK.get());
-                output.accept(ModBlocks.RAW_ALEXANDRITE_BLOCK.get());
+//                output.accept(ModBlocks.ALEXANDRITE_BLOCK.get());
+//                output.accept(ModBlocks.RAW_ALEXANDRITE_BLOCK.get());
             }).build());
 
 

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "creatures_of_petrichor:coin"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "creatures_of_petrichor:entities/boulder_spirit"
+}
