@@ -24,7 +24,7 @@ displayName = "${mod_name}" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL = "https://github.com/UAVwaffle/Petrichor-Utility-Mod-FORGE-1.20.1" #optional
+displayURL = "https://github.com/UAVwaffle/Creatures-of-Petrichor-FORGE-1.20.1" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="creatures_of_petrichor.png" #optional
 # A text field displayed in the mod UI
