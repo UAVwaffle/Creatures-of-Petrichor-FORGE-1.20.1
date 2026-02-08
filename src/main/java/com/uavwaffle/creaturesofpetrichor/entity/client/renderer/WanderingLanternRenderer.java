@@ -4,9 +4,11 @@ import com.uavwaffle.creaturesofpetrichor.entity.client.model.WanderingLanternMo
 import com.uavwaffle.creaturesofpetrichor.entity.custom.WanderingLanternEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class WanderingLanternRenderer extends GeoEntityRenderer<WanderingLanternEntity> {
     public WanderingLanternRenderer(EntityRendererProvider.Context context) {
         super(context, new WanderingLanternModel());
+        this.addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 }
